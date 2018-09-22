@@ -18,3 +18,13 @@ export const findInDomAncestry = predicate => node =>
  */
 export const findElementWithHandler =
   findInDomAncestry(x => x.hasAttribute('data-handler'));
+
+/**
+ * console.warn proxy.
+ * Walks ownerDocument to get to console, to avoid using global window.
+ */
+export const warn = (elm, ...args) =>
+  typeof elm.ownerDocument.defaultView.console !== 'undefined'
+  ? elm.ownerDocument.defaultView.console.warn(...args)
+  : undefined;
+

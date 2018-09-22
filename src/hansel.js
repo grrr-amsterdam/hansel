@@ -1,7 +1,7 @@
-import { findElementWithHandler } from './util';
+import { findElementWithHandler, warn } from './util';
 
 /**
- * Runner of enhancers
+ * enhance :: DomNode -> Object -> Void
  */
 export const enhance = (root, enhancers) => {
   if (!enhancers) {
@@ -25,23 +25,17 @@ export const enhance = (root, enhancers) => {
   });
 };
 
+/**
+ * handle :: DomNode -> Object -> Void
+ */
 export const handle = (root, handlers) => {
   if (!handlers) {
-    throw new Error('Nothing to handle');
+    return;
   }
 
   root.addEventListener('click', (e) => {
-    if (e.target.tagName === 'HTML') {
-      return;
-    }
-
-    const trigger = findElementWithHandler(e.target || e.srcElement);
+    const trigger = findElementWithHandler(e.target);
     if (!trigger) {
-      return;
-    }
-
-    const handlerCollection = trigger.getAttribute('data-handler');
-    if (!handlerCollection) {
       return;
     }
 
@@ -52,12 +46,15 @@ export const handle = (root, handlers) => {
       return;
     }
 
+    const handlerCollection = trigger.getAttribute('data-handler');
     handlerCollection.split(',').forEach(handler => {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
-      } else if (console && console.log) {
-        console.log('Non-existing handler: "%s" on %o', handler, trigger);
+      } else {
+        warn(trigger, 'Non-existing handler: "%s" on %o', handler, trigger);
       }
     });
   });
 };
+
+export default { handle, enhance };
