@@ -7,18 +7,15 @@ export const enhance = (root, enhancers) => {
   if (!enhancers) {
     return;
   }
-  const enhancerElms = root.querySelectorAll("[data-enhancer]");
-  return Array.prototype.map.call(enhancerElms, elm => {
-    // allow multiple comma-separated enhancers
+  const enhancedElements = root.querySelectorAll("[data-enhancer]");
+  return Array.prototype.map.call(enhancedElements, elm => {
+    // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute("data-enhancer");
     enhancerCollection.split(",").forEach(enhancer => {
       if (typeof enhancers[enhancer] === "function") {
         return enhancers[enhancer](elm);
-      } else if (elm.ownerDocument.defaultView.console) {
-        // This avoids accessing the global window
-        elm.ownerDocument.defaultView.console.log(
-          'Non-existing enhancer: "%s" on %o', enhancer, elm
-        );
+      } else {
+        warn(elm, 'Non-existing enhancer: "%s" on %o', enhancer, elm);
       }
     });
     return elm;
@@ -46,6 +43,7 @@ export const handle = (root, handlers) => {
       return;
     }
 
+    // Allow multiple, comma-separated handlers.
     const handlerCollection = trigger.getAttribute('data-handler');
     handlerCollection.split(',').forEach(handler => {
       if (typeof handlers[handler] === 'function') {

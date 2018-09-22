@@ -1,8 +1,8 @@
-import { handle } from '../src/hansel';
+import { handle, enhance } from '../src/hansel';
 
 const byId = id => document.querySelector(`#${id}`);
 
-const getHandlers = () => ({
+const getMockFunctions = () => ({
   foo: jest.fn(),
   bar: jest.fn()
 });
@@ -32,7 +32,7 @@ const clickEvent = (e = {
 
 describe('Hansel.handle', () => {
   test('Should listen to handler-clicks', () => {
-    const handlers = getHandlers();
+    const handlers = getMockFunctions();
     document.body.innerHTML = `
       <a href="#" id="a" data-handler="foo">foo</a>
       <a href="#" id="b" data-handler="bar">bar</a>
@@ -60,7 +60,7 @@ describe('Hansel.handle', () => {
   });
 
   test('Should ignore clicks with meta keys', () => {
-    const handlers = getHandlers();
+    const handlers = getMockFunctions();
     document.body.innerHTML = `
       <a href="#" id="a" data-handler="foo">foo</a>
       <a href="#" id="b" data-handler="bar">bar</a>
@@ -91,7 +91,7 @@ describe('Hansel.handle', () => {
   });
 
   test('Should allow multiple handlers', () => {
-    const handlers = getHandlers();
+    const handlers = getMockFunctions();
 
     document.body.innerHTML = '<button data-handler="foo,bar">click me</button>';
     handle(document.documentElement, handlers);
@@ -104,7 +104,7 @@ describe('Hansel.handle', () => {
   });
 
   test('Should scope handlers to root element', () => {
-    const handlers = getHandlers();
+    const handlers = getMockFunctions();
 
     document.body.innerHTML = `
       <div id="a">
@@ -117,9 +117,9 @@ describe('Hansel.handle', () => {
       </div>
     `;
 
-    handle(document.querySelector('a'), handlers);
+    handle(document.querySelector('#a'), handlers);
 
-    const [bfoo, bbar] = ['bfoo', 'bbar'].map(byId);
+    const [afoo, abar, bfoo, bbar] = ['afoo', 'abar', 'bfoo', 'bbar'].map(byId);
 
     // These clicks won't call the handlers, because only #a is handled by Hansel.
     bfoo.click();
@@ -127,5 +127,73 @@ describe('Hansel.handle', () => {
 
     bbar.click();
     expect(handlers.bar.mock.calls.length).toBe(0);
+
+    // These clicks do, since these elements are children of #a.
+    afoo.click();
+    expect(handlers.foo.mock.calls.length).toBe(1);
+
+    abar.click();
+    expect(handlers.bar.mock.calls.length).toBe(1);
+  });
+});
+
+describe('Hansel.enhance', () => {
+  test('Should enhance elements', () => {
+    const enhancers = getMockFunctions();
+    document.body.innerHTML = `
+      <div id="a" data-enhancer="foo">
+        <div id="b" data-enhancer="bar"></div>
+      </div>
+    `;
+    enhance(document.documentElement, enhancers);
+
+    const [a, b] = ['a', 'b'].map(byId);
+
+    expect(enhancers.foo).toBeCalledWith(a);
+    expect(enhancers.bar).toBeCalledWith(b);
+  });
+
+  test('Should allow multiple enhancers', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = '<div data-enhancer="foo,bar"></div>';
+    enhance(document.documentElement, enhancers);
+
+    const div = document.querySelector('div');
+
+    expect(enhancers.foo).toBeCalledWith(div);
+    expect(enhancers.bar).toBeCalledWith(div);
+  });
+
+  test('Should scope enhancers to root element', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = `
+      <div id="a">
+        <div data-enhancer="foo"></div>
+      </div>
+      <div id="b">
+        <div data-enhancer="bar"></div>
+      </div>
+    `;
+
+    enhance(document.querySelector('#a'), enhancers);
+
+    expect(enhancers.foo.mock.calls.length).toBe(1);
+    expect(enhancers.bar.mock.calls.length).toBe(0);
+  });
+
+  test('Should warn of unknown enhancers', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = '<div data-enhancer="nix"></div>';
+
+    const div = document.querySelector('div');
+    div.ownerDocument.defaultView.console.warn = jest.fn();
+
+    enhance(document.documentElement, enhancers);
+    expect(div.ownerDocument.defaultView.console.warn).toBeCalledWith(
+      'Non-existing enhancer: "%s" on %o', 'nix', div
+    );
   });
 });
