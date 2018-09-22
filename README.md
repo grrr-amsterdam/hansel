@@ -1,5 +1,7 @@
 # Hansel
 
+[![Build Status](https://travis-ci.com/grrr-amsterdam/hansel.svg?branch=master)](https://travis-ci.com/grrr-amsterdam/hansel)
+
 Runner of handlers and enhancers.
 
 ## TODO
