@@ -1,0 +1,50 @@
+Arguments: 
+  /usr/local/Cellar/node@8/8.11.3_1/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js
+
+PATH: 
+  /usr/local/var/rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/local/opt/php@7.1/bin:/usr/local/opt/php@7.1/bin:./node_modules/.bin:/Users/harmen/.node/bin:./vendor/bin:/Users/harmen/.composer/vendor/bin:/Users/harmen/.yarn/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  8.11.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/harmen/Code/javascript/hansel/package.json: Unexpected token } in JSON at position 470
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:1130:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:109:13
+      at <anonymous>
+
+npm manifest: 
+  {
+    "name": "Hansel",
+    "version": "1.0.0",
+    "description": "Runner of handlers/enhancers.",
+    "main": "index.js",
+    "author": "Harmen Janssen <harmen@grrr.nl>",
+    "license": "MIT",
+    "scripts": {
+      "test": "jest --config=./test/config.js --silent"
+    },
+    "devDependencies": {
+      "babel-jest": "^23.0.1",
+      "babel-eslint": "^7.2.3",
+      "eslint": "^4.3.0",
+      "eslint-config-airbnb-base": "^11.0.0",
+      "eslint-plugin-import": "^2.7.0",
+      "jest": "^23.1.0",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,0 +1,18 @@
+{
+  "name": "Hansel",
+  "version": "1.0.0",
+  "description": "Runner of handlers/enhancers.",
+  "main": "index.js",
+  "author": "Harmen Janssen <harmen@grrr.nl>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "*",
+    "jest": "*"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
