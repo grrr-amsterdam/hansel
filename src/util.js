@@ -1,21 +1,20 @@
-export const findInDomAncestry = (matchFn, node) =>
-    !node
+/**
+ * Generic function for traversing a DOM, returning the first element
+ * matching the predicate function.
+ *
+ * findInDomAncestry :: (DomNode -> Bool) -> DomNode -> ?DomNode
+ */
+export const findInDomAncestry = predicate => node =>
+    typeof node.nodeType === 'undefined' || node.nodeType === Node.DOCUMENT_NODE
     ? undefined
-    : matchFn(node)
+    : predicate(node)
     ? node
-    : findInDomAncestry(matchFn, node.parentNode);
+    : findInDomAncestry(predicate)(node.parentNode);
 
-export const findElementWithHandler = elm => {
-  if (!elm || elm.tagName === 'HTML') {
-    return;
-  }
-  if (elm.getAttribute('data-handler')) {
-    return elm;
-  }
-  if (!elm.parentNode || elm.parentNode.nodeName === 'BODY') {
-    return false;
-  }
-  return findElementWithHandler(elm.parentNode);
-};
-
-
+/**
+ * Find element with data-handler attribute.
+ *
+ * findElementWithHandler :: DomNode -> ?DomNode
+ */
+export const findElementWithHandler =
+  findInDomAncestry(x => x.hasAttribute('data-handler'));
