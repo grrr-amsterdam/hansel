@@ -2,7 +2,7 @@
   "name": "Hansel",
   "version": "1.0.0",
   "description": "Runner of handlers/enhancers.",
-  "main": "index.js",
+  "main": "dist/hansel.js",
   "author": "Harmen Janssen <harmen@grrr.nl>",
   "license": "MIT",
   "devDependencies": {
@@ -13,6 +13,10 @@
     "jest": "*"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "babel src --out-dir dist"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.1.2"
   }
 }
