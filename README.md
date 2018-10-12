@@ -15,7 +15,7 @@ Read the article for a deeper explanation.
 Install from NPM:
 
 ```
-npm install hansel
+npm install @grrr/hansel
 ```
 
 Import into your main Javascript file:
