@@ -1,10 +1,14 @@
 language: javascript
 
+cache:
+  yarn: true
+
 script:
 - yarn test
 
 before_install:
-- yarn install
+  - npm install -g yarn
+  - yarn install
 
 notifications:
   slack:
