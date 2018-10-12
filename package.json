@@ -1,5 +1,5 @@
 {
-  "name": "Hansel",
+  "name": "hansel",
   "version": "1.0.0",
   "description": "Runner of handlers/enhancers.",
   "main": "dist/hansel.js",
