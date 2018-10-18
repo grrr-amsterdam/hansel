@@ -1,3 +1,5 @@
+import { HANDLER_ATTRIBUTE } from './hansel';
+
 /**
  * Generic function for traversing a DOM, returning the first element
  * matching the predicate function.
@@ -17,7 +19,7 @@ export const findInDomAncestry = predicate => node =>
  * findElementWithHandler :: DomNode -> ?DomNode
  */
 export const findElementWithHandler =
-  findInDomAncestry(x => x.hasAttribute('data-handler'));
+  findInDomAncestry(x => x.hasAttribute(HANDLER_ATTRIBUTE));
 
 /**
  * console.warn proxy.
@@ -27,4 +29,3 @@ export const warn = (elm, ...args) =>
   typeof elm.ownerDocument.defaultView.console !== 'undefined'
   ? elm.ownerDocument.defaultView.console.warn(...args)
   : undefined;
-
