@@ -4,7 +4,8 @@ const byId = id => document.querySelector(`#${id}`);
 
 const getMockFunctions = () => ({
   foo: jest.fn(),
-  bar: jest.fn()
+  bar: jest.fn(),
+  baz: jest.fn(),
 });
 
 const clickEvent = (e = {
@@ -181,6 +182,25 @@ describe('Hansel.enhance', () => {
 
     expect(enhancers.foo.mock.calls.length).toBe(1);
     expect(enhancers.bar.mock.calls.length).toBe(0);
+  });
+
+  test('Should include rootElement in enhancer selection', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = `
+      <div id="a" data-enhancer="foo">
+        <div data-enhancer="bar"></div>
+      </div>
+      <div id="b">
+        <div data-enhancer="baz"></div>
+      </div>
+    `;
+
+    enhance(document.querySelector('#a'), enhancers);
+
+    expect(enhancers.foo.mock.calls.length).toBe(1);
+    expect(enhancers.bar.mock.calls.length).toBe(1);
+    expect(enhancers.baz.mock.calls.length).toBe(0);
   });
 
   test('Should warn of unknown enhancers', () => {
