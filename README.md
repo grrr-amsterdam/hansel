@@ -2,21 +2,27 @@
 
 [![Build Status](https://travis-ci.com/grrr-amsterdam/hansel.svg?branch=master)](https://travis-ci.com/grrr-amsterdam/hansel)
 
-Runner of handlers and enhancers.
+### Runner of handlers and enhancers
 
-Based on the article ["Progressive enhancement with handlers and enhancers" by Hidde de Vries](https://hiddedevries.nl/en/blog/2015-04-03-progressive-enhancement-with-handlers-and-enhancers).  
+- Lightweight (less than 1.5kb minified and gzipped)
+- No dependencies
+- Works in IE 9+
+
+Based on the article ["Progressive enhancement with handlers and enhancers" by Hidde de Vries](https://hiddedevries.nl/en/blog/2015-04-03-progressive-enhancement-with-handlers-and-enhancers).
 We've been using this model for many years with great pleasure, fine-tuning here and there.
 
 Read the article for a deeper explanation.
 
 
-## Usage
+## Installation
 
 Install from NPM:
 
 ```
 npm install @grrr/hansel
 ```
+
+## Usage
 
 Import into your main Javascript file:
 
@@ -44,7 +50,7 @@ handle(document.documentElement, {
 
 ## Enhancers
 
-`enhance` will look for DOM nodes containing the `data-enhancer` attribute. 
+`enhance` will look for DOM nodes containing the `data-enhancer` attribute.
 The second argument is a lookup table for enhancer functions. The value of the `data-enhancer` attribute will be matched with the table and if found, executed, given the element as first argument:
 
 ```js
@@ -96,3 +102,10 @@ myContainer.innerHTML = htmlContainingEnhancedElements;
 
 enhance(myContainer, myEnhancers);
 ```
+
+## Browser Compatibility
+
+- IE 9+
+- Chrome
+- Firefox
+- Safari
