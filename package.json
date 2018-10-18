@@ -10,17 +10,16 @@
     "url": "git+https://github.com/grrr-amsterdam/hansel.git"
   },
   "devDependencies": {
-    "@babel/core": "*",
-    "@babel/preset-env": "*",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "*",
-    "jest": "*"
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-core": "^7.0.0-bridge",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0"
   },
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist"
-  },
-  "dependencies": {
-    "@babel/cli": "^7.1.2"
   }
 }
