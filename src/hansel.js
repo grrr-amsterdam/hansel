@@ -4,13 +4,14 @@ export const ENHANCER_ATTRIBUTE = 'data-enhancer';
 export const HANDLER_ATTRIBUTE = 'data-handler';
 
 /**
- * enhance :: DomNode -> Object -> Void
+ * enhance :: DomNode -> Object -> Array
  */
 export const enhance = (root, enhancers) => {
   if (!enhancers) {
     return;
   }
-  const enhancedElements = root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`);
+  const enhancedElements = Array.from(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
+    .concat(root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []);
   return Array.prototype.map.call(enhancedElements, elm => {
     // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
