@@ -1,5 +1,8 @@
 import { findElementWithHandler, warn } from './util';
 
+export const ENHANCER_ATTRIBUTE = 'data-enhancer';
+export const HANDLER_ATTRIBUTE = 'data-handler';
+
 /**
  * enhance :: DomNode -> Object -> Void
  */
@@ -7,11 +10,11 @@ export const enhance = (root, enhancers) => {
   if (!enhancers) {
     return;
   }
-  const enhancedElements = root.querySelectorAll("[data-enhancer]");
+  const enhancedElements = root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`);
   return Array.prototype.map.call(enhancedElements, elm => {
     // Allow multiple, comma-separated enhancers.
-    const enhancerCollection = elm.getAttribute("data-enhancer");
-    enhancerCollection.split(",").forEach(enhancer => {
+    const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
+    enhancerCollection.split(',').forEach(enhancer => {
       if (typeof enhancers[enhancer] === "function") {
         return enhancers[enhancer](elm);
       } else {
@@ -44,7 +47,7 @@ export const handle = (root, handlers) => {
     }
 
     // Allow multiple, comma-separated handlers.
-    const handlerCollection = trigger.getAttribute('data-handler');
+    const handlerCollection = trigger.getAttribute(HANDLER_ATTRIBUTE);
     handlerCollection.split(',').forEach(handler => {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
