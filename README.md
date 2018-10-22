@@ -27,7 +27,7 @@ npm install @grrr/hansel
 Import into your main Javascript file:
 
 ```js
-import { enhance, handle } from "hansel";
+import { enhance, handle } from '@grrr/hansel';
 
 enhance(document.documentElement, {
     enhancer1(elm) {
