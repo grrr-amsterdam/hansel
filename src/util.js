@@ -29,3 +29,10 @@ export const warn = (elm, ...args) =>
   typeof elm.ownerDocument.defaultView.console !== 'undefined'
   ? elm.ownerDocument.defaultView.console.warn(...args)
   : undefined;
+
+/**
+ * Crude and incomplete replacement for Array.from
+ *
+ * nodesToArray :: NodeList -> Array
+ */
+export const toArray = xs => Array.prototype.slice.call(xs);

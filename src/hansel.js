@@ -1,4 +1,4 @@
-import { findElementWithHandler, warn } from './util';
+import { findElementWithHandler, toArray, warn } from './util';
 
 export const ENHANCER_ATTRIBUTE = 'data-enhancer';
 export const HANDLER_ATTRIBUTE = 'data-handler';
@@ -10,9 +10,10 @@ export const enhance = (root, enhancers) => {
   if (!enhancers) {
     return;
   }
-  const enhancedElements = Array.from(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
-    .concat(root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []);
-  return Array.prototype.map.call(enhancedElements, elm => {
+  const enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat(
+    toArray(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
+  );
+  return enhancedElements.map(elm => {
     // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
     enhancerCollection.split(',').forEach(enhancer => {
