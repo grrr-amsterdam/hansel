@@ -7,11 +7,12 @@ import { HANDLER_ATTRIBUTE } from './hansel';
  * findInDomAncestry :: (DomNode -> Bool) -> DomNode -> ?DomNode
  */
 export const findInDomAncestry = predicate => node =>
-    typeof node.nodeType === 'undefined' || node.nodeType === Node.DOCUMENT_NODE
-    ? undefined
-    : predicate(node)
-    ? node
-    : findInDomAncestry(predicate)(node.parentNode);
+  !node || node.nodeType === Node.DOCUMENT_NODE
+  ? undefined
+  : predicate(node)
+  ? node
+  : findInDomAncestry(predicate)(node.parentNode);
+
 
 /**
  * Find element with data-handler attribute.
