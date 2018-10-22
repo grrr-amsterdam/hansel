@@ -3,23 +3,29 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.handle = exports.enhance = void 0;
+exports.default = exports.handle = exports.enhance = exports.HANDLER_ATTRIBUTE = exports.ENHANCER_ATTRIBUTE = void 0;
 
 var _util = require("./util");
 
+var ENHANCER_ATTRIBUTE = 'data-enhancer';
+exports.ENHANCER_ATTRIBUTE = ENHANCER_ATTRIBUTE;
+var HANDLER_ATTRIBUTE = 'data-handler';
 /**
- * enhance :: DomNode -> Object -> Void
+ * enhance :: DomNode -> Object -> Array
  */
+
+exports.HANDLER_ATTRIBUTE = HANDLER_ATTRIBUTE;
+
 var enhance = function enhance(root, enhancers) {
   if (!enhancers) {
     return;
   }
 
-  var enhancedElements = root.querySelectorAll("[data-enhancer]");
-  return Array.prototype.map.call(enhancedElements, function (elm) {
+  var enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat((0, _util.toArray)(root.querySelectorAll("[".concat(ENHANCER_ATTRIBUTE, "]"))));
+  return enhancedElements.map(function (elm) {
     // Allow multiple, comma-separated enhancers.
-    var enhancerCollection = elm.getAttribute("data-enhancer");
-    enhancerCollection.split(",").forEach(function (enhancer) {
+    var enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
+    enhancerCollection.split(',').forEach(function (enhancer) {
       if (typeof enhancers[enhancer] === "function") {
         return enhancers[enhancer](elm);
       } else {
@@ -56,7 +62,7 @@ var handle = function handle(root, handlers) {
     } // Allow multiple, comma-separated handlers.
 
 
-    var handlerCollection = trigger.getAttribute('data-handler');
+    var handlerCollection = trigger.getAttribute(HANDLER_ATTRIBUTE);
     handlerCollection.split(',').forEach(function (handler) {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
