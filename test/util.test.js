@@ -26,5 +26,7 @@ describe('Utilities', () => {
     expect(findElementWithHandler(c2)).toBe(c2);
     expect(findElementWithHandler(d)).toBe(b);
     expect(findElementWithHandler(e)).toBeUndefined();
+
+    expect(findElementWithHandler(byId('none'))).toBeUndefined();
   });
 });
