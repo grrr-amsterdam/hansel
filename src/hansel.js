@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { findElementWithHandler, toArray, warn } from './util';
 
 export const ENHANCER_ATTRIBUTE = 'data-enhancer';
@@ -8,7 +9,7 @@ export const HANDLER_ATTRIBUTE = 'data-handler';
  */
 export const enhance = (root, enhancers) => {
   if (!enhancers) {
-    return;
+    return null;
   }
   const enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat(
     toArray(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
@@ -17,8 +18,8 @@ export const enhance = (root, enhancers) => {
     // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
     enhancerCollection.split(',').forEach(enhancer => {
-      if (typeof enhancers[enhancer] === "function") {
-        return enhancers[enhancer](elm);
+      if (typeof enhancers[enhancer] === 'function') {
+        enhancers[enhancer](elm);
       } else {
         warn(elm, 'Non-existing enhancer: "%s" on %o', enhancer, elm);
       }
