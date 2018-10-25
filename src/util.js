@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { HANDLER_ATTRIBUTE } from './hansel';
 
 /**
@@ -8,10 +9,10 @@ import { HANDLER_ATTRIBUTE } from './hansel';
  */
 export const findInDomAncestry = predicate => node =>
   !node || node.nodeType === Node.DOCUMENT_NODE
-  ? undefined
-  : predicate(node)
-  ? node
-  : findInDomAncestry(predicate)(node.parentNode);
+    ? undefined
+    : predicate(node)
+      ? node
+      : findInDomAncestry(predicate)(node.parentNode);
 
 
 /**
@@ -19,8 +20,7 @@ export const findInDomAncestry = predicate => node =>
  *
  * findElementWithHandler :: DomNode -> ?DomNode
  */
-export const findElementWithHandler =
-  findInDomAncestry(x => x.hasAttribute(HANDLER_ATTRIBUTE));
+export const findElementWithHandler = findInDomAncestry(x => x.hasAttribute(HANDLER_ATTRIBUTE));
 
 /**
  * console.warn proxy.
@@ -28,8 +28,8 @@ export const findElementWithHandler =
  */
 export const warn = (elm, ...args) =>
   typeof elm.ownerDocument.defaultView.console !== 'undefined'
-  ? elm.ownerDocument.defaultView.console.warn(...args)
-  : undefined;
+    ? elm.ownerDocument.defaultView.console.warn(...args)
+    : undefined;
 
 /**
  * Crude and incomplete replacement for Array.from

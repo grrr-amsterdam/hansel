@@ -22,7 +22,7 @@ const clickEvent = (e = {
   shiftKey: false,
   metaKey: false,
   button: 0,
-  relatedTarget: undefined
+  relatedTarget: undefined,
 }) => {
   const evt = document.createEvent('MouseEvents');
   evt.initMouseEvent('click', e.bubbles, e.cancelable, e.view, e.detail,
@@ -42,7 +42,7 @@ describe('Hansel.handle', () => {
     `;
     handle(document.documentElement, handlers);
 
-    const [a, b, c] = ['a', 'b', 'c'].map(byId);
+    const [a, b, c, d] = ['a', 'b', 'c', 'd'].map(byId);
 
     a.click();
     expect(handlers.foo).toBeCalledWith(a, expect.any(Event));
@@ -70,25 +70,25 @@ describe('Hansel.handle', () => {
     `;
     handle(document.documentElement, handlers);
 
-    const [a, b, c] = ['a', 'b', 'c'].map(byId);
+    const a = byId('a');
 
     a.dispatchEvent(clickEvent());
-    expect(handlers.foo.mock.calls.length).toBe(1);
+    expect(handlers.foo.mock.calls).toHaveLength(1);
 
     a.dispatchEvent(clickEvent({ metaKey: true }));
-    expect(handlers.foo.mock.calls.length).toBe(1);
+    expect(handlers.foo.mock.calls).toHaveLength(1);
 
     a.dispatchEvent(clickEvent());
-    expect(handlers.foo.mock.calls.length).toBe(2);
+    expect(handlers.foo.mock.calls).toHaveLength(2);
 
     a.dispatchEvent(clickEvent({ ctrlKey: true }));
-    expect(handlers.foo.mock.calls.length).toBe(2);
+    expect(handlers.foo.mock.calls).toHaveLength(2);
 
     a.dispatchEvent(clickEvent({ altKey: true }));
-    expect(handlers.foo.mock.calls.length).toBe(2);
+    expect(handlers.foo.mock.calls).toHaveLength(2);
 
     a.dispatchEvent(clickEvent({ shiftKey: true }));
-    expect(handlers.foo.mock.calls.length).toBe(2);
+    expect(handlers.foo.mock.calls).toHaveLength(2);
   });
 
   test('Should allow multiple handlers', () => {
@@ -124,17 +124,17 @@ describe('Hansel.handle', () => {
 
     // These clicks won't call the handlers, because only #a is handled by Hansel.
     bfoo.click();
-    expect(handlers.foo.mock.calls.length).toBe(0);
+    expect(handlers.foo.mock.calls).toHaveLength(0);
 
     bbar.click();
-    expect(handlers.bar.mock.calls.length).toBe(0);
+    expect(handlers.bar.mock.calls).toHaveLength(0);
 
     // These clicks do, since these elements are children of #a.
     afoo.click();
-    expect(handlers.foo.mock.calls.length).toBe(1);
+    expect(handlers.foo.mock.calls).toHaveLength(1);
 
     abar.click();
-    expect(handlers.bar.mock.calls.length).toBe(1);
+    expect(handlers.bar.mock.calls).toHaveLength(1);
   });
 });
 
@@ -180,8 +180,8 @@ describe('Hansel.enhance', () => {
 
     enhance(document.querySelector('#a'), enhancers);
 
-    expect(enhancers.foo.mock.calls.length).toBe(1);
-    expect(enhancers.bar.mock.calls.length).toBe(0);
+    expect(enhancers.foo.mock.calls).toHaveLength(1);
+    expect(enhancers.bar.mock.calls).toHaveLength(0);
   });
 
   test('Should include rootElement in enhancer selection', () => {
@@ -198,9 +198,9 @@ describe('Hansel.enhance', () => {
 
     enhance(document.querySelector('#a'), enhancers);
 
-    expect(enhancers.foo.mock.calls.length).toBe(1);
-    expect(enhancers.bar.mock.calls.length).toBe(1);
-    expect(enhancers.baz.mock.calls.length).toBe(0);
+    expect(enhancers.foo.mock.calls).toHaveLength(1);
+    expect(enhancers.bar.mock.calls).toHaveLength(1);
+    expect(enhancers.baz.mock.calls).toHaveLength(0);
   });
 
   test('Should warn of unknown enhancers', () => {
