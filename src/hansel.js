@@ -9,7 +9,7 @@ export const HANDLER_ATTRIBUTE = 'data-handler';
  */
 export const enhance = (root, enhancers) => {
   if (!enhancers) {
-    return null;
+    return [];
   }
   const enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat(
     toArray(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
