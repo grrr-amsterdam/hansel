@@ -1,6 +1,6 @@
 {
   "name": "@grrr/hansel",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Runner of handlers/enhancers.",
   "main": "dist/hansel.js",
   "author": "Grrr <npm@grrr.nl>",
