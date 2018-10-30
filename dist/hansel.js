@@ -7,6 +7,7 @@ exports.default = exports.handle = exports.enhance = exports.HANDLER_ATTRIBUTE =
 
 var _util = require("./util");
 
+// eslint-disable-next-line import/no-cycle
 var ENHANCER_ATTRIBUTE = 'data-enhancer';
 exports.ENHANCER_ATTRIBUTE = ENHANCER_ATTRIBUTE;
 var HANDLER_ATTRIBUTE = 'data-handler';
@@ -18,16 +19,18 @@ exports.HANDLER_ATTRIBUTE = HANDLER_ATTRIBUTE;
 
 var enhance = function enhance(root, enhancers) {
   if (!enhancers) {
-    return;
+    return [];
   }
 
-  var enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat((0, _util.toArray)(root.querySelectorAll("[".concat(ENHANCER_ATTRIBUTE, "]"))));
+  var rootHasEnhancers = // If the root element is a DocumentFragment, the root itself can't be enhanced.
+  typeof root.hasAttribute === 'function' && root.hasAttribute(ENHANCER_ATTRIBUTE);
+  var enhancedElements = (rootHasEnhancers ? [root] : []).concat((0, _util.toArray)(root.querySelectorAll("[".concat(ENHANCER_ATTRIBUTE, "]"))));
   return enhancedElements.map(function (elm) {
     // Allow multiple, comma-separated enhancers.
     var enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
     enhancerCollection.split(',').forEach(function (enhancer) {
-      if (typeof enhancers[enhancer] === "function") {
-        return enhancers[enhancer](elm);
+      if (typeof enhancers[enhancer] === 'function') {
+        enhancers[enhancer](elm);
       } else {
         (0, _util.warn)(elm, 'Non-existing enhancer: "%s" on %o', enhancer, elm);
       }
