@@ -7,6 +7,8 @@ exports.toArray = exports.warn = exports.findElementWithHandler = exports.findIn
 
 var _hansel = require("./hansel");
 
+// eslint-disable-next-line import/no-cycle
+
 /**
  * Generic function for traversing a DOM, returning the first element
  * matching the predicate function.
