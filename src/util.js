@@ -14,7 +14,6 @@ export const findInDomAncestry = predicate => node =>
       ? node
       : findInDomAncestry(predicate)(node.parentNode);
 
-
 /**
  * Find element with data-handler attribute.
  *
