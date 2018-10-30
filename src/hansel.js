@@ -11,7 +11,11 @@ export const enhance = (root, enhancers) => {
   if (!enhancers) {
     return [];
   }
-  const enhancedElements = (root.hasAttribute(ENHANCER_ATTRIBUTE) ? [root] : []).concat(
+  const rootHasEnhancers = (
+    // If the root element is a DocumentFragment, the root itself can't be enhanced.
+    typeof root.hasAttribute === 'function' && root.hasAttribute(ENHANCER_ATTRIBUTE)
+  );
+  const enhancedElements = (rootHasEnhancers ? [root] : []).concat(
     toArray(root.querySelectorAll(`[${ENHANCER_ATTRIBUTE}]`))
   );
   return enhancedElements.map(elm => {

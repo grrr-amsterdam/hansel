@@ -203,6 +203,28 @@ describe('Hansel.enhance', () => {
     expect(enhancers.baz.mock.calls).toHaveLength(0);
   });
 
+  test('Should exclude rootElement in enhancer selection when DocumentFragment', () => {
+    const enhancers = getMockFunctions();
+
+    const fragment = document.createDocumentFragment();
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <div id="a" data-enhancer="foo">
+        <div data-enhancer="bar"></div>
+      </div>
+      <div id="b">
+        <div data-enhancer="baz"></div>
+      </div>
+    `;
+    fragment.appendChild(container);
+
+    enhance(fragment, enhancers);
+
+    expect(enhancers.foo.mock.calls).toHaveLength(1);
+    expect(enhancers.bar.mock.calls).toHaveLength(1);
+    expect(enhancers.baz.mock.calls).toHaveLength(1);
+  });
+
   test('Should warn of unknown enhancers', () => {
     const enhancers = getMockFunctions();
 
