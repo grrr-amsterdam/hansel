@@ -3,32 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.toArray = exports.warn = exports.findElementWithHandler = exports.findInDomAncestry = void 0;
+exports.toArray = exports.warn = exports.findElementWithHandler = void 0;
 
 var _hansel = require("./hansel");
 
+var _closest = _interopRequireDefault(require("@grrr/utils/functions/closest"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // eslint-disable-next-line import/no-cycle
 
-/**
- * Generic function for traversing a DOM, returning the first element
- * matching the predicate function.
- *
- * findInDomAncestry :: (DomNode -> Bool) -> DomNode -> ?DomNode
- */
-var findInDomAncestry = function findInDomAncestry(predicate) {
-  return function (node) {
-    return !node || node.nodeType === Node.DOCUMENT_NODE ? undefined : predicate(node) ? node : findInDomAncestry(predicate)(node.parentNode);
-  };
-};
 /**
  * Find element with data-handler attribute.
  *
  * findElementWithHandler :: DomNode -> ?DomNode
  */
-
-
-exports.findInDomAncestry = findInDomAncestry;
-var findElementWithHandler = findInDomAncestry(function (x) {
+var findElementWithHandler = (0, _closest.default)(function (x) {
   return x.hasAttribute(_hansel.HANDLER_ATTRIBUTE);
 });
 /**

@@ -25,6 +25,19 @@
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
-    "lint": "eslint ."
+    "lint": "eslint . --ext=.js,.mjs"
+  },
+  "dependencies": {
+    "@grrr/utils": "^1.1.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": ["/\/node_modules\/(?!.*.*\/.*.mjs)/"],
+    "transform": {
+      "^.+\\.m?js$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "mjs"
+    ]
   }
 }
