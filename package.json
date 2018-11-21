@@ -25,7 +25,8 @@
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
-    "lint": "eslint . --ext=.js,.mjs"
+    "lint": "eslint . --ext=.js,.mjs",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@grrr/utils": "^1.1.0"
