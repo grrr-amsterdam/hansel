@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-cycle
+/* eslint-disable import/no-cycle */
 import { findElementWithHandler, toArray, warn } from './util';
 
 export const ENHANCER_ATTRIBUTE = 'data-enhancer';
