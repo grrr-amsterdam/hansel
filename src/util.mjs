@@ -1,5 +1,5 @@
+/* eslint-disable import/no-cycle */
 import closest from '@grrr/utils/functions/closest';
-// eslint-disable-next-line import/no-cycle
 import { HANDLER_ATTRIBUTE } from './hansel';
 
 /**

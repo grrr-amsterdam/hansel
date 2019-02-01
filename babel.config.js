@@ -1,11 +1,6 @@
 module.exports = {
-  ignore: [/\/node_modules\/(?!.*.*\/.*.mjs)/],
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        'targets': '> 0.25%, ie 9',
-      },
-    ],
+  plugins: [
+    '@babel/plugin-proposal-object-rest-spread',
+    '@babel/plugin-transform-modules-commonjs',
   ],
 };
