@@ -22,7 +22,7 @@ export const enhance = (root, enhancers) => {
     // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
     if (!enhancerCollection) {
-      return;
+      return elm;
     }
     enhancerCollection.split(',').map(enhancer => enhancer.trim()).forEach(enhancer => {
       if (typeof enhancers[enhancer] === 'function') {
