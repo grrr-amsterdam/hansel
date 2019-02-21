@@ -21,7 +21,10 @@ export const enhance = (root, enhancers) => {
   return enhancedElements.map(elm => {
     // Allow multiple, comma-separated enhancers.
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
-    enhancerCollection.split(',').forEach(enhancer => {
+    if (!enhancerCollection) {
+      return;
+    }
+    enhancerCollection.split(',').map(enhancer => enhancer.trim()).forEach(enhancer => {
       if (typeof enhancers[enhancer] === 'function') {
         enhancers[enhancer](elm);
       } else {
@@ -55,7 +58,10 @@ export const handle = (root, handlers) => {
 
     // Allow multiple, comma-separated handlers.
     const handlerCollection = trigger.getAttribute(HANDLER_ATTRIBUTE);
-    handlerCollection.split(',').forEach(handler => {
+    if (!handlerCollection) {
+      return;
+    }
+    handlerCollection.split(',').map(handler => handler.trim()).forEach(handler => {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
       } else {

@@ -238,4 +238,26 @@ describe('Hansel.enhance', () => {
       'Non-existing enhancer: "%s" on %o', 'nix', div
     );
   });
+
+  test('Should not warn of empty enhancer attributes', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = '<div data-enhancer=""></div>';
+
+    const div = document.querySelector('div');
+    div.ownerDocument.defaultView.console.warn = jest.fn();
+
+    enhance(document.documentElement, enhancers);
+    expect(div.ownerDocument.defaultView.console.warn).not.toBeCalled();
+  });
+
+  test('Should allow enhancer attribute spaces', () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = '<div data-enhancer="foo,bar, foo, bar"></div>';
+    enhance(document.documentElement, enhancers);
+
+    expect(enhancers.foo.mock.calls).toHaveLength(2);
+    expect(enhancers.bar.mock.calls).toHaveLength(2);
+  });
 });
