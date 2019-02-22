@@ -1,6 +1,6 @@
 {
   "name": "@grrr/hansel",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Runner of handlers/enhancers.",
   "main": "dist/hansel.js",
   "author": "Grrr <npm@grrr.nl>",
@@ -31,7 +31,9 @@
     "@grrr/utils": "^1.1.0"
   },
   "jest": {
-    "transformIgnorePatterns": ["/\/node_modules\/(?!.*.*\/.*.mjs)/"],
+    "transformIgnorePatterns": [
+      "//node_modules/(?!.*.*/.*.mjs)/"
+    ],
     "transform": {
       "^.+\\.m?js$": "babel-jest"
     },
