@@ -28,7 +28,14 @@ var enhance = function enhance(root, enhancers) {
   return enhancedElements.map(function (elm) {
     // Allow multiple, comma-separated enhancers.
     var enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
-    enhancerCollection.split(',').forEach(function (enhancer) {
+
+    if (!enhancerCollection) {
+      return elm;
+    }
+
+    enhancerCollection.split(',').map(function (enhancer) {
+      return enhancer.trim();
+    }).forEach(function (enhancer) {
       if (typeof enhancers[enhancer] === 'function') {
         enhancers[enhancer](elm);
       } else {
@@ -66,7 +73,14 @@ var handle = function handle(root, handlers) {
 
 
     var handlerCollection = trigger.getAttribute(HANDLER_ATTRIBUTE);
-    handlerCollection.split(',').forEach(function (handler) {
+
+    if (!handlerCollection) {
+      return;
+    }
+
+    handlerCollection.split(',').map(function (handler) {
+      return handler.trim();
+    }).forEach(function (handler) {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
       } else {

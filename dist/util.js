@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.toArray = exports.warn = exports.findElementWithHandler = void 0;
 
-var _hansel = require("./hansel");
-
 var _closest = _interopRequireDefault(require("@grrr/utils/functions/closest"));
+
+var _hansel = require("./hansel");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
