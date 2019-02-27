@@ -45,19 +45,19 @@ describe('Hansel.handle', () => {
     const [a, b, c, d] = ['a', 'b', 'c', 'd'].map(byId);
 
     a.click();
-    expect(handlers.foo).toBeCalledWith(a, expect.any(Event));
+    expect(handlers.foo).toHaveBeenCalledWith(a, expect.any(Event));
 
     b.click();
-    expect(handlers.bar).toBeCalledWith(b, expect.any(Event));
+    expect(handlers.bar).toHaveBeenCalledWith(b, expect.any(Event));
 
     c.ownerDocument.defaultView.console.warn = jest.fn();
     c.click();
-    expect(c.ownerDocument.defaultView.console.warn).toBeCalledWith(
+    expect(c.ownerDocument.defaultView.console.warn).toHaveBeenCalledWith(
       'Non-existing handler: "%s" on %o', 'nix', c
     );
 
     d.click();
-    expect(handlers.foo).toBeCalledWith(d, expect.any(Event));
+    expect(handlers.foo).toHaveBeenCalledWith(d, expect.any(Event));
   });
 
   test('Should ignore clicks with meta keys', () => {
@@ -100,8 +100,8 @@ describe('Hansel.handle', () => {
     const button = document.querySelector('button');
     button.click();
 
-    expect(handlers.foo).toBeCalledWith(button, expect.any(Event));
-    expect(handlers.bar).toBeCalledWith(button, expect.any(Event));
+    expect(handlers.foo).toHaveBeenCalledWith(button, expect.any(Event));
+    expect(handlers.bar).toHaveBeenCalledWith(button, expect.any(Event));
   });
 
   test('Should scope handlers to root element', () => {
@@ -150,8 +150,8 @@ describe('Hansel.enhance', () => {
 
     const [a, b] = ['a', 'b'].map(byId);
 
-    expect(enhancers.foo).toBeCalledWith(a);
-    expect(enhancers.bar).toBeCalledWith(b);
+    expect(enhancers.foo).toHaveBeenCalledWith(a);
+    expect(enhancers.bar).toHaveBeenCalledWith(b);
   });
 
   test('Should allow multiple enhancers', () => {
@@ -162,8 +162,8 @@ describe('Hansel.enhance', () => {
 
     const div = document.querySelector('div');
 
-    expect(enhancers.foo).toBeCalledWith(div);
-    expect(enhancers.bar).toBeCalledWith(div);
+    expect(enhancers.foo).toHaveBeenCalledWith(div);
+    expect(enhancers.bar).toHaveBeenCalledWith(div);
   });
 
   test('Should scope enhancers to root element', () => {
@@ -234,7 +234,7 @@ describe('Hansel.enhance', () => {
     div.ownerDocument.defaultView.console.warn = jest.fn();
 
     enhance(document.documentElement, enhancers);
-    expect(div.ownerDocument.defaultView.console.warn).toBeCalledWith(
+    expect(div.ownerDocument.defaultView.console.warn).toHaveBeenCalledWith(
       'Non-existing enhancer: "%s" on %o', 'nix', div
     );
   });
@@ -248,7 +248,7 @@ describe('Hansel.enhance', () => {
     div.ownerDocument.defaultView.console.warn = jest.fn();
 
     enhance(document.documentElement, enhancers);
-    expect(div.ownerDocument.defaultView.console.warn).not.toBeCalled();
+    expect(div.ownerDocument.defaultView.console.warn).not.toHaveBeenCalled();
   });
 
   test('Should allow enhancer attribute spaces', () => {
