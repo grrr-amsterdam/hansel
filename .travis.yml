@@ -1,14 +1,14 @@
 language: node_js
 
 node_js:
-    - "8"
+  - "10"
 
 cache:
   yarn: true
 
 script:
-- yarn lint
-- yarn test
+  - yarn lint
+  - yarn test
 
 before_install:
   - npm install -g yarn
