@@ -1,8 +1,5 @@
-/* eslint-disable import/no-cycle */
 import { findElementWithHandler, toArray, warn } from './util';
-
-export const ENHANCER_ATTRIBUTE = 'data-enhancer';
-export const HANDLER_ATTRIBUTE = 'data-handler';
+import { ENHANCER_ATTRIBUTE, HANDLER_ATTRIBUTE } from './constants';
 
 /**
  * enhance :: DomNode -> Object -> Array
@@ -48,14 +45,12 @@ export const handle = (root, handlers) => {
     if (!trigger) {
       return;
     }
-
     if (trigger.tagName === 'A' && (e.metaKey || e.ctrlKey || e.shiftKey)) {
       // Honour default behaviour on <a>s when using modifier keys when clicking.
       // Meta / Ctrl open in new tab.
       // Shift opens in a new window.
       return;
     }
-
     // Allow multiple, comma-separated handlers.
     const handlerCollection = trigger.getAttribute(HANDLER_ATTRIBUTE);
     if (!handlerCollection) {

@@ -1,6 +1,5 @@
-/* eslint-disable import/no-cycle */
-import closest from '@grrr/utils/functions/closest';
-import { HANDLER_ATTRIBUTE } from './hansel';
+import { closest } from '@grrr/utils';
+import { HANDLER_ATTRIBUTE } from './constants';
 
 /**
  * Find element with data-handler attribute.
