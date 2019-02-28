@@ -167,10 +167,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@grrr/utils@^1.1.0":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@grrr/utils/-/utils-1.1.1.tgz#e5494c694fa79cd6d413f2b89121a235a1597211"
-  integrity sha512-Wg/653VBhtqP/QutUknpkrJjqvCgYWZL1poNAPZ4+AAWdqjhDebk3WyKrgbQ0iaEhpVw4C8MHBh/tD+8TMdlSw==
+"@grrr/utils@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@grrr/utils/-/utils-2.0.0.tgz#199cda325b7d16d0651a18473cc978a385945de6"
+  integrity sha512-4Ec2zCO8LdcozIq8t+HMsDgfgydHfNhzubKd9lLA0Q8ZMKqPIfM40ZYiOtfHh6xpvk2UJP28eQSZgSBxOhtC5g==
 
 abab@^2.0.0:
   version "2.0.0"
