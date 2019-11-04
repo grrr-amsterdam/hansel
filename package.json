@@ -11,21 +11,21 @@
     "url": "git+https://github.com/grrr-amsterdam/hansel.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
-    "babel-jest": "^24.1.0",
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.6.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^22.3.0",
-    "jest": "^24.1.0"
+    "eslint-plugin-jest": "^23.0.2",
+    "jest": "^24.9.0"
   },
   "scripts": {
     "test": "jest",
     "lint": "eslint . --ext=.js,.mjs"
   },
   "dependencies": {
-    "@grrr/utils": "^2.0.0"
+    "@grrr/utils": "^2.3.0"
   },
   "jest": {
     "transformIgnorePatterns": [
