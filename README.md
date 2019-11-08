@@ -2,27 +2,26 @@
 
 [![Build Status](https://travis-ci.com/grrr-amsterdam/hansel.svg?branch=master)](https://travis-ci.com/grrr-amsterdam/hansel)
 
-### Runner of handlers and enhancers
+### Runner of JavaScript handlers and enhancers
 
 - Lightweight (less than 1kb minified and gzipped)
 - Transpile to desired browser target
 - No dependencies (except a minor utility function)
 
 Based on the article ["Progressive enhancement with handlers and enhancers" by Hidde de Vries](https://hiddedevries.nl/en/blog/2015-04-03-progressive-enhancement-with-handlers-and-enhancers).
-We've been using this model for many years with great pleasure, fine-tuning here and there.
+We've been using this model for many years with great pleasure, fine-tuning here and there. Read the article for a deeper explanation.
 
-Read the article for a deeper explanation.
+Built with ❤️ by [GRRR](https://grrr.tech).
 
 
 ## Installation
 
-Using npm:
-
-```
-npm install @grrr/hansel
+```sh
+$ npm install @grrr/hansel
 ```
 
-Note: depending on your setup additional configuration might be needed ([see below](#usage-with-build-tools)).
+Note: depending on your setup [additional configuration might be needed](https://github.com/grrr-amsterdam/hansel/wiki/Usage-with-build-tools), since this package is published with untranspiled JavaScript.
+
 
 ## Usage
 
@@ -33,26 +32,46 @@ import { enhance, handle } from '@grrr/hansel';
 
 enhance(document.documentElement, {
     enhancer1(elm) {
+        // Enhance elements with this enhancer
     },
     enhancer2(elm) {
     },
     enhancerN(elm) {
-    }
+    },
 });
 
 handle(document.documentElement, {
     handler1(elm, event) {
+        // Handle clicks on elements with this handler
     },
     handler2(elm, event) {
     },
-    handlerN(elm) {
-    }
+    handlerN(elm, event) {
+    },
+});
+```
+
+In a more modular setup, this would look like:
+
+```js
+import { enhance, handle } from '@grrr/hansel';
+import { enhancer as fooEnhancer, handler as fooHandler } from './foo';
+import { enhancer as barEnhancer, handler as barHandler } from './bar';
+
+enhance(document.documentElement, {
+    fooEnhancer,
+    barEnhancer,
+});
+
+handle(document.documentElement, {
+    fooHandler,
+    barHandler,
 });
 ```
 
 ## Enhancers
 
-`enhance` will look for DOM nodes containing the `data-enhancer` attribute.
+The `enhance` function will look for DOM nodes containing the `data-enhancer` attribute.
 The second argument is a lookup table for enhancer functions. The value of the `data-enhancer` attribute will be matched with the table and if found, executed, given the element as first argument:
 
 ```js
@@ -104,38 +123,3 @@ myContainer.innerHTML = htmlContainingEnhancedElements;
 
 enhance(myContainer, myEnhancers);
 ```
-
-## Usage with build tools
-
-This package is published with untranspiled JavaScript. All files are in the form of ECMAScript Modules (ESM), with `.mjs` as file extension. This means that you'll need to transpile the package yourself.
-
-Not every build tool or bundler will recognize `.mjs` files correctly, and not every setup will transpile these files when they're in the `node_modules` folder. Here's a list with commonly used tools and usage instructions:
-
-#### Webpack
-
-The latest version of Webpack should transpile `.mjs` files properly when used with the default Babel loader ([babel-loader](https://github.com/babel/babel-loader)).
-
-#### Rollup
-
-The latest version of Rollup should transpile `.mjs` files properly when used with the default Babel plugin ([rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel)).
-
-#### Browserify
-
-Use the following [babelify](https://github.com/babel/babelify#why-arent-files-in-node_modules-being-transformed) settings to transform `.mjs` files in the `node_modules`:
-
-```js
-global: true,
-ignore: /\/node_modules\/(?!.*.*\/.*.mjs)/,
-```
-
-The [esmify](https://github.com/mattdesl/esmify) plugin might also prove to be usefull.
-
-#### Babel
-
-If you're transpiling with Babel in any other setup, use the following ignore pattern to properly ignore the `node_modules` and allow `.mjs` files to be transpiled:
-
-```js
-ignore: [/\/node_modules\/(?!.*.*\/.*.mjs)/],
-```
-
-This can be added in your `babel.config.js`, `.babelrc` or `package.json`; quotes will be necessary for JSON-based configurations.
