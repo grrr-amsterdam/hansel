@@ -92,7 +92,7 @@ Multiple enhancers are possible by comma-separating them:
 
 ## Handlers
 
-Handlers are called on click, using a global event listener on the `document`. Meta-clicks are caught and *not* passed on to the handler.
+Handlers are called on click, using a global event listener on the `document`. 
 
 ```js
 // Given <button data-handler="shout" data-message="Hello!">shout</button>
@@ -109,6 +109,18 @@ Multiple handlers are possible by comma-separating them:
 
 ```html
 <a data-handler="foo,bar" href="/">Do the thing</a>
+```
+
+By default, modifier-clicks (`e.metaKey`, `e.ctrlKey` and `e.shiftKey`) on anchors (`<a>`) are caught, and are *not* passed on to the handler. To disable this behaviour, pass a third argument to the method, changing the `allowModifierKeys` setting:
+
+```js
+handle(document.documentElement, {
+  track(elm, e) {
+    window.dataLayer.push() 
+  }
+}, { 
+  allowModifierKeys: true,
+});
 ```
 
 ## Furthermore

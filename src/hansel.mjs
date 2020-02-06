@@ -35,7 +35,7 @@ export const enhance = (root, enhancers) => {
 /**
  * handle :: DomNode -> Object -> Void
  */
-export const handle = (root, handlers) => {
+export const handle = (root, handlers, { allowModifierKeys = false } = {}) => {
   if (!handlers) {
     return;
   }
@@ -45,10 +45,10 @@ export const handle = (root, handlers) => {
     if (!trigger) {
       return;
     }
-    if (trigger.tagName === 'A' && (e.metaKey || e.ctrlKey || e.shiftKey)) {
-      // Honour default behaviour on <a>s when using modifier keys when clicking.
-      // Meta / Ctrl open in new tab.
-      // Shift opens in a new window.
+    if (trigger.tagName === 'A' && !allowModifierKeys && (e.metaKey || e.ctrlKey || e.shiftKey)) {
+      // Honour default behaviour on `<a>`s when using modifier keys when clicking:
+      // - Meta / Ctrl open in new tab.
+      // - Shift opens in a new window.
       return;
     }
     // Allow multiple, comma-separated handlers.
