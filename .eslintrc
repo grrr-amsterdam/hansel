@@ -19,5 +19,6 @@
     "no-nested-ternary": "off",
     "implicit-arrow-linebreak": "off",
     "arrow-body-style": "off",
+    "prefer-destructuring": "off",
   }
 }

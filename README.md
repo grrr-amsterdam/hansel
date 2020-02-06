@@ -31,23 +31,19 @@ Import into your main JavaScript file:
 import { enhance, handle } from '@grrr/hansel';
 
 enhance(document.documentElement, {
-    enhancer1(elm) {
-        // Enhance elements with this enhancer
-    },
-    enhancer2(elm) {
-    },
-    enhancerN(elm) {
-    },
+  enhancer1(elm) {
+    // Enhance elements with this enhancer.
+  },
+  enhancer2(elm) { /* */ },
+  enhancerN(elm) { /* */ },
 });
 
 handle(document.documentElement, {
-    handler1(elm, event) {
-        // Handle clicks on elements with this handler
-    },
-    handler2(elm, event) {
-    },
-    handlerN(elm, event) {
-    },
+  handler1(elm, event) {
+    // Handle clicks on elements with this handler.
+  },
+  handler2(elm, event) { /* */ },
+  handlerN(elm, event) { /* */ },
 });
 ```
 
@@ -59,13 +55,13 @@ import { enhancer as fooEnhancer, handler as fooHandler } from './foo';
 import { enhancer as barEnhancer, handler as barHandler } from './bar';
 
 enhance(document.documentElement, {
-    fooEnhancer,
-    barEnhancer,
+  fooEnhancer,
+  barEnhancer,
 });
 
 handle(document.documentElement, {
-    fooHandler,
-    barHandler,
+  fooHandler,
+  barHandler,
 });
 ```
 
@@ -79,7 +75,7 @@ The second argument is a lookup table for enhancer functions. The value of the `
 
 enhance(document.documentElement, {
   foo(elm) {
-    console.log(elm.getAttribute('data-message')); // "Hello!"
+    console.log(elm.getAttribute('data-message')); //=> "Hello!"
   }
 });
 ```
@@ -92,14 +88,14 @@ Multiple enhancers are possible by comma-separating them:
 
 ## Handlers
 
-Handlers are called on click, using a global event listener on the `document`. Meta-clicks are caught and *not* passed on to the handler.
+Handlers are called on click, using a global event listener on the `document`. 
 
 ```js
 // Given <button data-handler="shout" data-message="Hello!">shout</button>
 
 handle(document.documentElement, {
   shout(elm, e) {
-    alert(elm.getAttribute('data-message')); // "Hello!"
+    alert(elm.getAttribute('data-message')); //=> "Hello!"
     e.preventDefault();
   }
 });
@@ -109,6 +105,37 @@ Multiple handlers are possible by comma-separating them:
 
 ```html
 <a data-handler="foo,bar" href="/">Do the thing</a>
+```
+
+### Options
+
+It's possible to register a handler with options. To do so, register the handler via an object with a `fn` and `options` key:
+
+```js
+handle(document.documentElement, {
+  foo(elm, e) { /* */ },
+  bar(elm, e) { /* */ },
+  baz: {
+    fn: baz(el, e) {
+      // The handler function.
+    },
+    options: {
+      // The handler options.
+    },
+  },
+});
+```
+
+The following options are available:
+
+#### allowModifierKeys
+
+By default, modifier-clicks ([metaKey](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/metaKey), [ctrlKey](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/ctrlKey), [altKey](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/altKey) and [shiftKey](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/shiftKey)) on anchors (`<a>`) are caught, and are *not* passed on to the handler. To disable this behaviour, register the handler with the `allowModifierKeys` option:
+
+```js
+options: {
+  allowModifierKeys: true,
+},
 ```
 
 ## Furthermore

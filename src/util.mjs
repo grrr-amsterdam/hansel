@@ -2,6 +2,16 @@ import { closest } from '@grrr/utils';
 import { HANDLER_ATTRIBUTE } from './constants';
 
 /**
+ * Determine if given DOM element is an anchor (`<a>`).
+ */
+export const isAnchor = tag => tag.tagName.toLowerCase() === 'a';
+
+/**
+ * Determine if KeyboardEvent includes a modifier key.
+ */
+export const isModifierKey = e => e.metaKey || e.ctrlKey || e.altKey || e.shiftKey;
+
+/**
  * Find element with data-handler attribute.
  *
  * findElementWithHandler :: DomNode -> ?DomNode
