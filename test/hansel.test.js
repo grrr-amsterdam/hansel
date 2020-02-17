@@ -8,7 +8,7 @@ const getMockFunctions = () => ({
   baz: jest.fn(),
 });
 
-const clickEvent = (e = {
+const CLICK_EVENT = {
   bubbles: true,
   cancelable: true,
   view: window,
@@ -23,13 +23,9 @@ const clickEvent = (e = {
   metaKey: false,
   button: 0,
   relatedTarget: undefined,
-}) => {
-  const evt = document.createEvent('MouseEvents');
-  evt.initMouseEvent('click', e.bubbles, e.cancelable, e.view, e.detail,
-    e.screenX, e.screenY, e.clientX, e.clientY, e.ctrlKey, e.altKey, e.shiftKey,
-    e.metaKey, e.button, e.relatedTarget);
-  return evt;
 };
+
+const clickEvent = e => new MouseEvent('click', { ...CLICK_EVENT, ...e });
 
 describe('Hansel.handle', () => {
   test('Should listen to handler-clicks', () => {
