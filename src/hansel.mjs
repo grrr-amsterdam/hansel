@@ -49,7 +49,7 @@ export const enhance = (root, enhancers) => {
   return enhancedElements.map(elm => {
     const enhancerCollection = elm.getAttribute(ENHANCER_ATTRIBUTE);
     if (!enhancerCollection) {
-      return;
+      return elm;
     }
     // Allow multiple, comma-separated enhancers.
     enhancerCollection.split(',').map(enhancer => enhancer.trim()).forEach(enhancer => {
@@ -82,7 +82,7 @@ export const handle = (root, handlers) => {
     // Allow multiple, comma-separated handlers.
     handlerCollection.split(',').map(handler => handler.trim()).forEach(handler => {
       const fn = getHandlerFn(handlers[handler]);
-      const options = getHandlerOptions(handlers[handler])
+      const options = getHandlerOptions(handlers[handler]);
       // Honour default behaviour on `<a>`s when using modifier keys when clicking,
       // but only when not explicitly allowed via `allowModifierKeys` handler option:
       // - Meta / Ctrl opens in new tab.

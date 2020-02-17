@@ -6,6 +6,12 @@ const getMockFunctions = () => ({
   foo: jest.fn(),
   bar: jest.fn(),
   baz: jest.fn(),
+  mod: {
+    fn: jest.fn(),
+    options: {
+      allowModifierKeys: true,
+    },
+  },
 });
 
 const CLICK_EVENT = {
@@ -56,7 +62,7 @@ describe('Hansel.handle', () => {
     expect(handlers.foo).toHaveBeenCalledWith(d, expect.any(Event));
   });
 
-  test('Should ignore clicks with meta keys', () => {
+  test('Should ignore clicks with meta keys (allowModifierKeys: false)', () => {
     const handlers = getMockFunctions();
     document.body.innerHTML = `
       <a href="#" id="a" data-handler="foo">foo</a>
@@ -85,6 +91,45 @@ describe('Hansel.handle', () => {
 
     a.dispatchEvent(clickEvent({ shiftKey: true }));
     expect(handlers.foo.mock.calls).toHaveLength(2);
+  });
+
+  test(`Shouldn't ignore clicks with meta keys (allowModifierKeys: true)`, () => {
+    const handlers = getMockFunctions();
+    document.body.innerHTML = `
+      <a href="#" id="a" data-handler="foo">foo</a>
+      <a href="#" id="b" data-handler="bar">bar</a>
+      <a href="#" id="c" data-handler="nix">nix</a>
+      <a href="#" id="d" data-handler="foo">foo</a>
+      <a href="#" id="e" data-handler="mod">mod</a>
+    `;
+    handle(document.documentElement, handlers);
+
+    const a = byId('a');
+    const e = byId('e');
+
+    e.dispatchEvent(clickEvent());
+    expect(handlers.mod.fn.mock.calls).toHaveLength(1);
+
+    e.dispatchEvent(clickEvent({ metaKey: true }));
+    expect(handlers.mod.fn.mock.calls).toHaveLength(2);
+
+    e.dispatchEvent(clickEvent());
+    expect(handlers.mod.fn.mock.calls).toHaveLength(3);
+
+    a.dispatchEvent(clickEvent({ metaKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(0);
+
+    e.dispatchEvent(clickEvent({ ctrlKey: true }));
+    expect(handlers.mod.fn.mock.calls).toHaveLength(4);
+
+    e.dispatchEvent(clickEvent({ altKey: true }));
+    expect(handlers.mod.fn.mock.calls).toHaveLength(5);
+
+    e.dispatchEvent(clickEvent({ shiftKey: true }));
+    expect(handlers.mod.fn.mock.calls).toHaveLength(6);
+
+    a.dispatchEvent(clickEvent({ metaKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(0);
   });
 
   test('Should allow multiple handlers', () => {
