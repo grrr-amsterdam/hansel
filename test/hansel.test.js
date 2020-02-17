@@ -56,7 +56,7 @@ describe('Hansel.handle', () => {
     expect(handlers.foo).toHaveBeenCalledWith(d, expect.any(Event));
   });
 
-  test('Should ignore clicks with meta keys', () => {
+  test('Should ignore clicks with meta keys (allowModifierKeys: false)', () => {
     const handlers = getMockFunctions();
     document.body.innerHTML = `
       <a href="#" id="a" data-handler="foo">foo</a>
@@ -85,6 +85,39 @@ describe('Hansel.handle', () => {
 
     a.dispatchEvent(clickEvent({ shiftKey: true }));
     expect(handlers.foo.mock.calls).toHaveLength(2);
+  });
+
+  test(`Shouldn't ignore clicks with meta keys (allowModifierKeys: true)`, () => {
+    const handlers = getMockFunctions();
+    document.body.innerHTML = `
+      <a href="#" id="a" data-handler="foo">foo</a>
+      <a href="#" id="b" data-handler="bar">bar</a>
+      <a href="#" id="c" data-handler="nix">nix</a>
+      <a href="#" id="d" data-handler="foo">foo</a>
+    `;
+    handle(document.documentElement, handlers, {
+      allowModifierKeys: true,
+    });
+
+    const a = byId('a');
+
+    a.dispatchEvent(clickEvent());
+    expect(handlers.foo.mock.calls).toHaveLength(1);
+
+    a.dispatchEvent(clickEvent({ metaKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(2);
+
+    a.dispatchEvent(clickEvent());
+    expect(handlers.foo.mock.calls).toHaveLength(3);
+
+    a.dispatchEvent(clickEvent({ ctrlKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(4);
+
+    a.dispatchEvent(clickEvent({ altKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(5);
+
+    a.dispatchEvent(clickEvent({ shiftKey: true }));
+    expect(handlers.foo.mock.calls).toHaveLength(6);
   });
 
   test('Should allow multiple handlers', () => {
