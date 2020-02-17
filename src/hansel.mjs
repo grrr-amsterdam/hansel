@@ -4,7 +4,9 @@ import { ENHANCER_ATTRIBUTE, HANDLER_ATTRIBUTE } from './constants';
 /**
  * enhance :: DomNode -> Object -> Array
  */
-export const enhance = (root, enhancers) => {
+export const enhance = (root, enhancers, {
+  disableWarnings = false,
+} = {}) => {
   if (!enhancers) {
     return [];
   }
@@ -24,7 +26,7 @@ export const enhance = (root, enhancers) => {
     enhancerCollection.split(',').map(enhancer => enhancer.trim()).forEach(enhancer => {
       if (typeof enhancers[enhancer] === 'function') {
         enhancers[enhancer](elm);
-      } else {
+      } else if (!disableWarnings) {
         warn(elm, 'Non-existing enhancer: "%s" on %o', enhancer, elm);
       }
     });
@@ -35,7 +37,10 @@ export const enhance = (root, enhancers) => {
 /**
  * handle :: DomNode -> Object -> Void
  */
-export const handle = (root, handlers, { allowModifierKeys = false } = {}) => {
+export const handle = (root, handlers, {
+  allowModifierKeys = false,
+  disableWarnings = false,
+} = {}) => {
   if (!handlers) {
     return;
   }
@@ -60,7 +65,7 @@ export const handle = (root, handlers, { allowModifierKeys = false } = {}) => {
     handlerCollection.split(',').map(handler => handler.trim()).forEach(handler => {
       if (typeof handlers[handler] === 'function') {
         handlers[handler](trigger, e);
-      } else {
+      } else if (!disableWarnings) {
         warn(trigger, 'Non-existing handler: "%s" on %o', handler, trigger);
       }
     });

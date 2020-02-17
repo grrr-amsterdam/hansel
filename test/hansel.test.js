@@ -254,7 +254,7 @@ describe('Hansel.enhance', () => {
     expect(enhancers.baz.mock.calls).toHaveLength(1);
   });
 
-  test('Should warn of unknown enhancers', () => {
+  test('Should warn of unknown enhancers (disableWarnings: false)', () => {
     const enhancers = getMockFunctions();
 
     document.body.innerHTML = '<div data-enhancer="nix"></div>';
@@ -266,6 +266,20 @@ describe('Hansel.enhance', () => {
     expect(div.ownerDocument.defaultView.console.warn).toHaveBeenCalledWith(
       'Non-existing enhancer: "%s" on %o', 'nix', div
     );
+  });
+
+  test(`Shouldn't warn of unknown enhancers (disableWarnings: true)`, () => {
+    const enhancers = getMockFunctions();
+
+    document.body.innerHTML = '<div data-enhancer="nix"></div>';
+
+    const div = document.querySelector('div');
+    div.ownerDocument.defaultView.console.warn = jest.fn();
+
+    enhance(document.documentElement, enhancers, {
+      disableWarnings: true,
+    });
+    expect(div.ownerDocument.defaultView.console.warn).not.toHaveBeenCalled();
   });
 
   test('Should not warn of empty enhancer attributes', () => {
