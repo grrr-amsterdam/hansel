@@ -39,16 +39,17 @@ export const handle = (root, handlers, { allowModifierKeys = false } = {}) => {
   if (!handlers) {
     return;
   }
-
   root.addEventListener('click', (e) => {
     const trigger = findElementWithHandler(e.target);
     if (!trigger) {
       return;
     }
-    if (trigger.tagName === 'A' && !allowModifierKeys && (e.metaKey || e.ctrlKey || e.shiftKey)) {
+    const isModifierKey = e.metaKey || e.ctrlKey || e.altKey || e.shiftKey;
+    if (trigger.tagName === 'A' && !allowModifierKeys && isModifierKey) {
       // Honour default behaviour on `<a>`s when using modifier keys when clicking:
-      // - Meta / Ctrl open in new tab.
+      // - Meta / Ctrl opens in new tab.
       // - Shift opens in a new window.
+      // - Alt (option on macOS) can be operating system based operation.
       return;
     }
     // Allow multiple, comma-separated handlers.
