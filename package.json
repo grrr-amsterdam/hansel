@@ -1,6 +1,6 @@
 {
   "name": "@grrr/hansel",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Runner of handlers/enhancers.",
   "main": "index.mjs",
   "author": "GRRR <npm@grrr.nl>",
