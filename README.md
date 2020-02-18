@@ -109,7 +109,7 @@ Multiple handlers are possible by comma-separating them:
 
 ### Options
 
-It's possible to register a handler with options. To do so, register the handler via an object with a `fn` and `options` key:
+It's possible to register a handler with options. To do so, register the handler via an object with an `fn` and `options` key:
 
 ```js
 handle(document.documentElement, {
