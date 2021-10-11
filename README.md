@@ -11,8 +11,12 @@
 Based on the article ["Progressive enhancement with handlers and enhancers" by Hidde de Vries](https://hiddedevries.nl/en/blog/2015-04-03-progressive-enhancement-with-handlers-and-enhancers).
 We've been using this model for many years with great pleasure, fine-tuning here and there. Read the article for a deeper explanation.
 
-Built with ❤️ by [GRRR](https://grrr.tech).
+### Developed with ❤️ by [GRRR](https://grrr.nl)
 
+- GRRR is a [B Corp](https://grrr.nl/en/b-corp/)
+- GRRR has a [tech blog](https://grrr.tech/)
+- GRRR is [hiring](https://grrr.nl/en/jobs/)
+- [@GRRRTech](https://twitter.com/grrrtech) tweets
 
 ## Installation
 
